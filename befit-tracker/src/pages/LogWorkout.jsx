@@ -12,7 +12,9 @@ const LogWorkout = () => {
 
   // Save workouts to localStorage whenever the list changes
   useEffect(() => {
-    localStorage.setItem("workouts", JSON.stringify(workouts));
+    if (workouts.length > 0) {
+      localStorage.setItem("workouts", JSON.stringify(workouts));
+    }
   }, [workouts]);
 
   const saveWorkout = (workout) => {
