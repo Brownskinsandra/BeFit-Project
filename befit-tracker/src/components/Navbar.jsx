@@ -9,6 +9,7 @@ const Navbar = () => {
           <Link to="/" className="text-white hover:text-gray-300">Home</Link>
           <Link to="/log-workout" className="text-white hover:text-gray-300">Log Workout</Link>
           <Link to="/history" className="text-white hover:text-gray-300">History</Link>
+          <Link to="/workout-categories" className="text-white px-4 py-2">Workouts</Link>
         </div>
       </div>
     </nav>

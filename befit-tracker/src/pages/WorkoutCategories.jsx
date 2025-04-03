@@ -11,20 +11,22 @@ const WorkoutCategories = () => {
   ];
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-100 py-10">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">Select a Muscle Group</h1>
+    <div className="flex flex-col items-center min-h-screen bg-gray-900 py-10">
+      <h1 className="text-3xl font-bold text-white mb-6">Select a Muscle Group</h1>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
         {muscleGroups.map((muscle, index) => (
-          <Link to={muscle.path} key={index} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition">
-            <img src={muscle.image} alt={muscle.name} className="w-32 h-32 object-cover rounded-md mx-auto" />
-            <h2 className="text-center text-lg font-semibold mt-2">{muscle.name}</h2>
+          <Link to={muscle.path} key={index} className="relative w-40 h-40 rounded-lg overflow-hidden shadow-md hover:scale-105 transition">
+            <img src={muscle.image} alt={muscle.name} className="absolute inset-0 w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+              <h2 className="text-white text-lg font-bold">{muscle.name}</h2>
+            </div>
           </Link>
         ))}
       </div>
 
       {/* "TRACK" Button */}
-      <Link to="/log-workout" className="mt-8 bg-purple-600 text-white px-6 py-3 rounded-lg text-lg font-semibold">
+      <Link to="/log-workout" className="mt-8 bg-purple-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-purple-700">
         TRACK
       </Link>
     </div>
