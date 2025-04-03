@@ -6,7 +6,7 @@ const WorkoutCategories = () => {
     { name: "Back", image: "/images/back.jpg", path: "/workout/back" },
     { name: "Legs", image: "/images/legs.jpg", path: "/workout/legs" },
     { name: "Arms", image: "/images/arms.jpg", path: "/workout/arms" },
-    { name: "Shoulders", image: "/images/shoulders.jpg", path: "/workout/shoulders" },
+    { name: "Glutes", image: "/images/glutes.jpg", path: "/workout/glutes" },
     { name: "Core", image: "/images/core.jpg", path: "/workout/core" },
   ];
 
