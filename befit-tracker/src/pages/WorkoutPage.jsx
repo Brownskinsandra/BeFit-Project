@@ -9,43 +9,58 @@ const WorkoutPage = () => {
   useEffect(() => {
     const fetchExercises = async () => {
       try {
-        const response = await fetch(`https://wger.de/api/v2/exercise/?language=2&limit=10`);
+        setLoading(true);
+        const response = await fetch(
+          `https://wger.de/api/v2/exercise/?language=2&muscles=${muscleGroup}`
+        );
         const data = await response.json();
         
-        // Filter exercises based on muscle group
-        const filteredExercises = data.results.filter((exercise) => 
-          exercise.category.name.toLowerCase() === muscleGroup.toLowerCase()
-        );
-
-        setExercises(filteredExercises);
-        setLoading(false);
+        // Rank exercises (assuming effectiveness can be determined by API data)
+        const rankedExercises = data.results.sort((a, b) => b.rating - a.rating);
+        
+        // Fetch videos dynamically (using a placeholder for now)
+        const exercisesWithVideos = rankedExercises.map((exercise) => ({
+          ...exercise,
+          videoUrl: `https://www.youtube.com/embed?search_query=${exercise.name.replace(", ", "+")}+exercise`
+        }));
+        
+        setExercises(exercisesWithVideos);
       } catch (error) {
         console.error("Error fetching exercises:", error);
+      } finally {
         setLoading(false);
       }
     };
-
     fetchExercises();
   }, [muscleGroup]);
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-100 py-10">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6 animate-fade-in">
-        {muscleGroup.toUpperCase()} Workouts
+    <div className="min-h-screen bg-gray-900 text-white p-6">
+      <h1 className="text-3xl font-bold text-center capitalize">
+        Best {muscleGroup} Workouts
       </h1>
-
+      <p className="text-center text-gray-300 my-4">
+        Discover the best exercises for strengthening your {muscleGroup} with proper form.
+      </p>
       {loading ? (
-        <p className="text-gray-600">Loading exercises...</p>
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-purple-500"></div>
+        </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {exercises.map((exercise, index) => (
-            <div key={index} className="bg-white p-4 rounded-lg shadow-md hover:shadow-xl transition-transform transform hover:scale-105">
+            <div key={index} className="bg-gray-800 p-4 rounded-lg shadow-md">
               <h2 className="text-xl font-semibold">{exercise.name}</h2>
-              <p className="text-gray-600 mt-2">{exercise.description}</p>
-              <video controls className="mt-4 rounded-md w-full">
-                <source src={`https://example.com/videos/${exercise.id}.mp4`} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+              <p className="text-gray-400 text-sm">{exercise.description}</p>
+              {/* Dynamic Video Embedding */}
+              <div className="mt-4">
+                <iframe
+                  className="w-full h-40 rounded-md"
+                  src={exercise.videoUrl}
+                  title={`How to do ${exercise.name}`}
+                  allowFullScreen
+                ></iframe>
+              </div>
             </div>
           ))}
         </div>
