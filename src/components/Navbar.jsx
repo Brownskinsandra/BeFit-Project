@@ -7,9 +7,9 @@ const Navbar = () => {
         <h1 className="text-lg font-bold">BeFit Tracker</h1>
         <div className="space-x-4">
           <Link to="/" className="text-white hover:text-gray-300">Home</Link>
+          <Link to="/workout-categories" className="text-white px-4 py-2">Workouts</Link>
           <Link to="/log-workout" className="text-white hover:text-gray-300">Track</Link>
           <Link to="/history" className="text-white hover:text-gray-300">History</Link>
-          <Link to="/workout-categories" className="text-white px-4 py-2">Workouts</Link>
         </div>
       </div>
     </nav>
