@@ -18,8 +18,8 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/workout-categories" element={<WorkoutCategories />} />
         <Route path="/log-workout" element={<LogWorkout />} />
-        <Route path="/history" element={<History />} />
         <Route path="/workout/:muscleGroup" element={<WorkoutPage />} /> {/* ✅ Dynamic Route */}
+        <Route path="/history" element={<History />} />
       </Routes>
     </Router>
   );

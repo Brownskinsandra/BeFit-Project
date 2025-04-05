@@ -27,7 +27,7 @@ const WorkoutCategories = () => {
 
       {/* "TRACK" Button */}
       <Link to="/log-workout" className="mt-8 bg-purple-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-purple-700">
-        TRACK
+        TRACK WORKOUT
       </Link>
     </div>
   );
