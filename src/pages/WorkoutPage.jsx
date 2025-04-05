@@ -19,41 +19,41 @@ const WorkoutPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-  const fetchExercises = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(
-        `https://wger.de/api/v2/exercise/?language=2&muscles=${muscleGroup}`
-      );
-      const data = await response.json();
+    const fetchExercises = async () => {
+      try {
+        setLoading(true);
 
-      console.log("API Response:", data); // ✅ Debugging: Log API response
+        const response = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL}/exercises/bodyPart/${muscleGroup}`,
+          {
+            method: "GET",
+            headers: {
+              "X-RapidAPI-Key": import.meta.env.VITE_RAPID_API_KEY,
+              "X-RapidAPI-Host": import.meta.env.VITE_RAPID_API_HOST,
+            },
+          }
+        );
 
-      if (!data.results || data.results.length === 0) {
-        console.warn("No exercises found for", muscleGroup);
-        setExercises([]);
-        return;
+        const data = await response.json();
+
+        const sortedExercises = data
+          .sort((a, b) => b.id - a.id) // Sort descending by ID (or any criteria you want)
+          .map((exercise) => ({
+            ...exercise,
+            videoUrl: videoMap[exercise.name] || null,
+          }));
+
+        setExercises(sortedExercises);
+      } catch (error) {
+        console.error("Failed to fetch exercises:", error);
+      } finally {
+        setLoading(false);
       }
+    };
 
-      const rankedExercises = data.results
-        .sort((a, b) => b.rating - a.rating)
-        .map((exercise) => ({
-          ...exercise,
-          videoUrl: videoMap[exercise.name] || null,
-        }));
+    fetchExercises();
+  }, [muscleGroup]);
 
-      console.log("Processed Exercises:", rankedExercises); // ✅ Debugging: Log processed exercises
-
-      setExercises(rankedExercises);
-    } catch (error) {
-      console.error("Error fetching exercises:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  fetchExercises();
-}, [muscleGroup]);
-  
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <h1 className="text-3xl font-bold text-center capitalize">
@@ -71,10 +71,9 @@ const WorkoutPage = () => {
           {exercises.map((exercise, index) => (
             <div key={index} className="bg-gray-800 p-4 rounded-lg shadow-md">
               <h2 className="text-xl font-semibold">{exercise.name}</h2>
-              <p
-                className="text-gray-400 text-sm mt-2"
-                dangerouslySetInnerHTML={{ __html: exercise.description }}
-              ></p>
+              <p className="text-gray-400 text-sm mt-2 capitalize">
+                Equipment: {exercise.equipment}
+              </p>
 
               {exercise.videoUrl ? (
                 <div className="mt-4">
